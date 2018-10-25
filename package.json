@@ -1,0 +1,9 @@
+{
+  "name": "@steveukx/file-exists",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "engines": {
+    "node": ">=6.5"
+  }
+}
