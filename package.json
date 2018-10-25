@@ -4,6 +4,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "license": "MIT",
+  "repository": "git@github.com:kwsites/file-exists.git",
   "author": "Steve King <steve@mydev.co>",
   "contributors": [
     {
