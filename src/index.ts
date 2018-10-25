@@ -1,10 +1,10 @@
 
-const fs = require('fs');
+import fs from 'fs';
 
-function check (path, isFile, isDirectory) {
+function check (path: string, isFile: boolean, isDirectory: boolean): boolean {
    try {
-      const matches = false;
       const stat = fs.statSync(path);
+      let matches = false;
 
       matches = matches || isFile && stat.isFile();
       matches = matches || isDirectory && stat.isDirectory();
@@ -22,21 +22,24 @@ function check (path, isFile, isDirectory) {
 
 /**
  * Synchronous validation of a path existing either as a file or as a directory.
- * 
+ *
  * @param {string} path The path to check
  * @param {number} type One or both of the exported numeric constants
  */
-function exists (path, type) {
+export function exists (path: string, type: number): boolean {
    if (!type) {
       return check(path, true, true);
    }
 
-   return check(path, type & 1, type & 2);
+   return check(path, (type & 1) > 0, (type & 2) > 0);
 }
 
+/**
+ * Constant representing a file
+ */
+export const FILE = 1;
 
-module.exports.exists = exists;
-
-module.exports.FILE = 1;
-
-module.exports.FOLDER = 2;
+/**
+ * Constant representing a folder
+ */
+export const FOLDER = 2;

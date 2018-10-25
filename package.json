@@ -1,9 +1,30 @@
 {
-  "name": "@steveukx/file-exists",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "@kwsites/file-exists",
+  "version": "0.0.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "license": "MIT",
-  "engines": {
-    "node": ">=6.5"
+  "author": "Steve King <steve@mydev.co>",
+  "contributors": [
+    {
+      "name": "Steve King",
+      "email": "steve@mydev.co"
+    }
+  ],
+  "files": [
+    "dist/**/*.*"
+  ],
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "build": "yarn run clean && tsc",
+    "preversion": "yarn run clean && yarn run build && yarn test",
+    "postversion": "npm publish --access=public && git push && git push --tags",
+    "test": "echo 'Write some tests'",
+    "tsc": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.0",
+    "rimraf": "^2.6.2",
+    "typescript": "^3.1.3"
   }
 }
