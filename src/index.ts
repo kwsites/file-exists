@@ -1,8 +1,7 @@
 import { statSync } from 'fs';
 import debug from 'debug';
 
-const {name} = require('../package.json');
-const log = debug(name);
+const log = debug('@kwsites/file-exists');
 
 function check(path: string, isFile: boolean, isDirectory: boolean): boolean {
    log(`checking %s`, path);

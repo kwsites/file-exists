@@ -1,7 +1,7 @@
 
 # Release History
 
-## 1.1.0
+## 1.1.1
 
 - Add dependency on `debug` to log results of the file system checks
 - Add `jest` tests
