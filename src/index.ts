@@ -1,21 +1,34 @@
+import { statSync } from 'fs';
+import debug from 'debug';
 
-import fs from 'fs';
+const {name} = require('../package.json');
+const log = debug(name);
 
-function check (path: string, isFile: boolean, isDirectory: boolean): boolean {
+function check(path: string, isFile: boolean, isDirectory: boolean): boolean {
+   log(`checking %s`, path);
+
    try {
-      const stat = fs.statSync(path);
-      let matches = false;
+      const stat = statSync(path);
 
-      matches = matches || isFile && stat.isFile();
-      matches = matches || isDirectory && stat.isDirectory();
+      if (stat.isFile() && isFile) {
+         log(`[OK] path represents a file`);
+         return true;
+      }
 
-      return matches;
-   }
-   catch (e) {
+      if (stat.isDirectory() && isDirectory) {
+         log(`[OK] path represents a directory`);
+         return true;
+      }
+
+      log(`[FAIL] path represents something other than a file or directory`);
+      return false;
+   } catch (e) {
       if (e.code === 'ENOENT') {
+         log(`[FAIL] path is not accessible: %o`, e);
          return false;
       }
 
+      log(`[FATAL] %o`, e);
       throw e;
    }
 }
@@ -26,12 +39,8 @@ function check (path: string, isFile: boolean, isDirectory: boolean): boolean {
  * @param {string} path The path to check
  * @param {number} type One or both of the exported numeric constants
  */
-export function exists (path: string, type: number): boolean {
-   if (!type) {
-      return check(path, true, true);
-   }
-
-   return check(path, (type & 1) > 0, (type & 2) > 0);
+export function exists(path: string, type: number = READABLE): boolean {
+   return check(path, (type & FILE) > 0, (type & FOLDER) > 0);
 }
 
 /**
@@ -43,3 +52,8 @@ export const FILE = 1;
  * Constant representing a folder
  */
 export const FOLDER = 2;
+
+/**
+ * Constant representing either a file or a folder
+ */
+export const READABLE = FILE + FOLDER;
